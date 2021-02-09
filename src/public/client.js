@@ -27,7 +27,7 @@ window.addEventListener('load', () => {
     //Event Handler for rover selection
     root.onclick = event => {
         if (event.target.innerHTML == 'Photos') {
-            roverName = event.target.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML;
+            roverName = event.target.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML;
             if (JSON.stringify(store.toJS().roversPhotos.get(roverName)) === '{}') getRoverPhotos(store, roverName);
             else updateStore(store, {'selectedRover': roverName});
         }
@@ -43,9 +43,9 @@ const App = (state) => {
     return `
             <section>
                 ${ImageOfTheDay(apod)}
-                ${createWeather(state)}
                 ${createRoversInfo(state)}
                 ${clickPhotosButton(state,creteContentImages)}
+                ${createWeather(state)}
             </section>
         `
 }
@@ -114,7 +114,7 @@ const createRoversInfo = (state) => {
         </div>
     </div>`;
 
-        rovers.forEach( (rover, index) => {
+        rovers.map( (rover) => {
              content = content.concat(createRoversDetails(rover))
          })
 
@@ -134,7 +134,7 @@ const createRoversDetails= (rover) => {
                 <p class="card-text">Launch Date: ${rover.launch_date}</p>
                 <p class="card-text">Total Photos: ${rover.total_photos}</p>
                 <p class="card-text">Latest_photo: ${rover.photos.reduce((a, b) => {
-                    return new Date(a.earth_date) > new Date(b.earth_date) ? a.earth_date : b.earth_date;
+                    return (new Date(a.earth_date) > new Date(b.earth_date) ? a.earth_date : b.earth_date)
                   })}</p>
                 <button type="button" class="btn btn-primary">Photos</button>
             </div>
@@ -158,7 +158,7 @@ const clickPhotosButton = (state,creteContentImages) => {
 const creteContentImages = (state) => {
     let content = ``;
         
-    state.roversPhotos.get(state.selectedRover).forEach( photo => {
+    state.roversPhotos.get(state.selectedRover).map( photo => {
         content = content.concat(`<div class="col-lg-3 col-md-5 col-sm-10 mx-auto rounded m-4">
                                         <img src="${photo}" class="img-fluid">
                                     </div>`);
