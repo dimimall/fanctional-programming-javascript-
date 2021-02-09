@@ -6,8 +6,7 @@ let store = Immutable.fromJS({
     rovers: [],
     roversNames: ['Curiosity', 'Opportunity', 'Spirit'],
     roversPhotos: new Map([ ['Curiosity', {}], ['Opportunity', {}], ['Spirit', {}] ]),
-    sol_keys: [],
-    weather: []
+    sol_keys: []
 })
 
 
@@ -29,7 +28,6 @@ window.addEventListener('load', () => {
     root.onclick = event => {
         if (event.target.innerHTML == 'Photos') {
             roverName = event.target.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML;
-            console.log(roverName);
             if (JSON.stringify(store.toJS().roversPhotos.get(roverName)) === '{}') getRoverPhotos(store, roverName);
             else updateStore(store, {'selectedRover': roverName});
         }
@@ -135,6 +133,9 @@ const createRoversDetails= (rover) => {
                 <p class="card-text">Landing date: ${rover.landing_date}</p>
                 <p class="card-text">Launch Date: ${rover.launch_date}</p>
                 <p class="card-text">Total Photos: ${rover.total_photos}</p>
+                <p class="card-text">Latest_photo: ${rover.photos.reduce((a, b) => {
+                    return new Date(a.earth_date) > new Date(b.earth_date) ? a.earth_date : b.earth_date;
+                  })}</p>
                 <button type="button" class="btn btn-primary">Photos</button>
             </div>
         </div>
@@ -173,7 +174,8 @@ const createWeather = (state) => {
         getWeatherMars();
     }
     else{
-        let content =``;
+
+        let content = ``;
 
         content = `<div class="container">
             <div class="row py-5 text-center">
@@ -181,90 +183,105 @@ const createWeather = (state) => {
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-block position-relative">
-                                <p class="card-title">Season: ${sol_keys["775"].Season}</p>
-                                <p class="card-subtitle mb-2 text-muted">Southern season: ${sol_keys["775"].Southern_season}</p>
-                                <p class="card-text">${sol_keys["775"].First_UTC}</p>
-                                <p class="card-text">${sol_keys["775"].Last_UTC}</p>
-                                <p class="card-text">Month ordinal: ${sol_keys["775"].Month_ordinal}</p>
-                                <p class="card-text">Southern season: ${sol_keys["775"].Northern_season}</p>
-                                <p class="card-text">Average: ${sol_keys["775"].PRE.av}</p>
-                                <p class="card-text">Min temperature: ${sol_keys["775"].PRE.mn}</p>
-                                <p class="card-text">Min temperature: ${sol_keys["775"].PRE.mx}</p>
+                                <p class="card-title">Season: ${sol_keys[0].Season}</p>
+                                <p class="card-subtitle mb-2 text-muted">Southern season: ${sol_keys[0].Southern_season}</p>
+                                <p class="card-text">${sol_keys[0].First_UTC}</p>
+                                <p class="card-text">${sol_keys[0].Last_UTC}</p>
+                                <p class="card-text">Month ordinal: ${sol_keys[0].Month_ordinal}</p>
+                                <p class="card-text">Southern season: ${sol_keys[0].Northern_season}</p>
+                                <p class="card-text">Average: ${sol_keys[0].PRE.av}</p>
+                                <p class="card-text">Min temperature: ${sol_keys[0].PRE.mn}</p>
+                                <p class="card-text">Min temperature: ${sol_keys[0].PRE.mx}</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-block position-relative">
-                                <p class="card-title">Season: ${sol_keys["776"].Season}</p>
-                                <p class="card-subtitle mb-2 text-muted">Southern season: ${sol_keys["776"].Southern_season}</p>
-                                <p class="card-text">${sol_keys["776"].First_UTC}</p>
-                                <p class="card-text">${sol_keys["776"].Last_UTC}</p>
-                                <p class="card-text">Month ordinal: ${sol_keys["776"].Month_ordinal}</p>
-                                <p class="card-text">Southern season: ${sol_keys["776"].Northern_season}</p>
-                                <p class="card-text">Average: ${sol_keys["776"].PRE.av}</p>
-                                <p class="card-text">Min temperature: ${sol_keys["776"].PRE.mn}</p>
-                                <p class="card-text">Min temperature: ${sol_keys["776"].PRE.mx}</p>
+                                <p class="card-title">Season: ${sol_keys[1].Season}</p>
+                                <p class="card-subtitle mb-2 text-muted">Southern season: ${sol_keys[1].Southern_season}</p>
+                                <p class="card-text">${sol_keys[1].First_UTC}</p>
+                                <p class="card-text">${sol_keys[1].Last_UTC}</p>
+                                <p class="card-text">Month ordinal: ${sol_keys[1].Month_ordinal}</p>
+                                <p class="card-text">Southern season: ${sol_keys[1].Northern_season}</p>
+                                <p class="card-text">Average: ${sol_keys[1].PRE.av}</p>
+                                <p class="card-text">Min temperature: ${sol_keys[1].PRE.mn}</p>
+                                <p class="card-text">Min temperature: ${sol_keys[1].PRE.mx}</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-block position-relative">
-                                <p class="card-title">Season: ${sol_keys["777"].Season}</p>
-                                <p class="card-subtitle mb-2 text-muted">Southern season: ${sol_keys["777"].Southern_season}</p>
-                                <p class="card-text">${sol_keys["777"].First_UTC}</p>
-                                <p class="card-text">${sol_keys["777"].Last_UTC}</p>
-                                <p class="card-text">Month ordinal: ${sol_keys["777"].Month_ordinal}</p>
-                                <p class="card-text">Southern season: ${sol_keys["777"].Northern_season}</p>
-                                <p class="card-text">Average: ${sol_keys["777"].PRE.av}</p>
-                                <p class="card-text">Min temperature: ${sol_keys["777"].PRE.mn}</p>
-                                <p class="card-text">Min temperature: ${sol_keys["777"].PRE.mx}</p>
+                                <p class="card-title">Season: ${sol_keys[2].Season}</p>
+                                <p class="card-subtitle mb-2 text-muted">Southern season: ${sol_keys[2].Southern_season}</p>
+                                <p class="card-text">${sol_keys[2].First_UTC}</p>
+                                <p class="card-text">${sol_keys[2].Last_UTC}</p>
+                                <p class="card-text">Month ordinal: ${sol_keys[2].Month_ordinal}</p>
+                                <p class="card-text">Southern season: ${sol_keys[2].Northern_season}</p>
+                                <p class="card-text">Average: ${sol_keys[2].PRE.av}</p>
+                                <p class="card-text">Min temperature: ${sol_keys[2].PRE.mn}</p>
+                                <p class="card-text">Min temperature: ${sol_keys[2].PRE.mx}</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-block position-relative">
-                                <p class="card-title">Season: ${sol_keys["778"].Season}</p>
-                                <p class="card-subtitle mb-2 text-muted">Southern season: ${sol_keys["778"].Southern_season}</p>
-                                <p class="card-text">${sol_keys["778"].First_UTC}</p>
-                                <p class="card-text">${sol_keys["778"].Last_UTC}</p>
-                                <p class="card-text">Month ordinal: ${sol_keys["778"].Month_ordinal}</p>
-                                <p class="card-text">Southern season: ${sol_keys["778"].Northern_season}</p>
-                                <p class="card-text">Average: ${sol_keys["778"].PRE.av}</p>
-                                <p class="card-text">Min temperature: ${sol_keys["778"].PRE.mn}</p>
-                                <p class="card-text">Min temperature: ${sol_keys["778"].PRE.mx}</p>
+                                <p class="card-title">Season: ${sol_keys[3].Season}</p>
+                                <p class="card-subtitle mb-2 text-muted">Southern season: ${sol_keys[3].Southern_season}</p>
+                                <p class="card-text">${sol_keys[3].First_UTC}</p>
+                                <p class="card-text">${sol_keys[3].Last_UTC}</p>
+                                <p class="card-text">Month ordinal: ${sol_keys[3].Month_ordinal}</p>
+                                <p class="card-text">Southern season: ${sol_keys[3].Northern_season}</p>
+                                <p class="card-text">Average: ${sol_keys[3].PRE.av}</p>
+                                <p class="card-text">Min temperature: ${sol_keys[3].PRE.mn}</p>
+                                <p class="card-text">Min temperature: ${sol_keys[3].PRE.mx}</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-block position-relative">
-                                <p class="card-title">Season: ${sol_keys["779"].Season}</p>
-                                <p class="card-subtitle mb-2 text-muted">Southern season: ${sol_keys["779"].Southern_season}</p>
-                                <p class="card-text">${sol_keys["779"].First_UTC}</p>
-                                <p class="card-text">${sol_keys["779"].Last_UTC}</p>
-                                <p class="card-text">Month ordinal: ${sol_keys["779"].Month_ordinal}</p>
-                                <p class="card-text">Southern season: ${sol_keys["779"].Northern_season}</p>
-                                <p class="card-text">Average: ${sol_keys["779"].PRE.av}</p>
-                                <p class="card-text">Min temperature: ${sol_keys["779"].PRE.mn}</p>
-                                <p class="card-text">Min temperature: ${sol_keys["779"].PRE.mx}</p>
+                                <p class="card-title">Season: ${sol_keys[4].Season}</p>
+                                <p class="card-subtitle mb-2 text-muted">Southern season: ${sol_keys[4].Southern_season}</p>
+                                <p class="card-text">${sol_keys[4].First_UTC}</p>
+                                <p class="card-text">${sol_keys[4].Last_UTC}</p>
+                                <p class="card-text">Month ordinal: ${sol_keys[4].Month_ordinal}</p>
+                                <p class="card-text">Southern season: ${sol_keys[4].Northern_season}</p>
+                                <p class="card-text">Average: ${sol_keys[4].PRE.av}</p>
+                                <p class="card-text">Min temperature: ${sol_keys[4].PRE.mn}</p>
+                                <p class="card-text">Min temperature: ${sol_keys[4].PRE.mx}</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-block position-relative">
-                                <p class="card-title">Season: ${sol_keys["780"].Season}</p>
-                                <p class="card-subtitle mb-2 text-muted">Southern season: ${sol_keys["780"].Southern_season}</p>
-                                <p class="card-text">${sol_keys["780"].First_UTC}</p>
-                                <p class="card-text">${sol_keys["780"].Last_UTC}</p>
-                                <p class="card-text">Month ordinal: ${sol_keys["780"].Month_ordinal}</p>
-                                <p class="card-text">Southern season: ${sol_keys["780"].Northern_season}</p>
-                                <p class="card-text">Average: ${sol_keys["780"].PRE.av}</p>
-                                <p class="card-text">Min temperature: ${sol_keys["780"].PRE.mn}</p>
-                                <p class="card-text">Min temperature: ${sol_keys["780"].PRE.mx}</p>
+                                <p class="card-title">Season: ${sol_keys[5].Season}</p>
+                                <p class="card-subtitle mb-2 text-muted">Southern season: ${sol_keys[5].Southern_season}</p>
+                                <p class="card-text">${sol_keys[5].First_UTC}</p>
+                                <p class="card-text">${sol_keys[5].Last_UTC}</p>
+                                <p class="card-text">Month ordinal: ${sol_keys[5].Month_ordinal}</p>
+                                <p class="card-text">Southern season: ${sol_keys[5].Northern_season}</p>
+                                <p class="card-text">Average: ${sol_keys[5].PRE.av}</p>
+                                <p class="card-text">Min temperature: ${sol_keys[5].PRE.mn}</p>
+                                <p class="card-text">Min temperature: ${sol_keys[5].PRE.mx}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-block position-relative">
+                                <p class="card-title">Season: ${sol_keys[6].Season}</p>
+                                <p class="card-subtitle mb-2 text-muted">Southern season: ${sol_keys[6].Southern_season}</p>
+                                <p class="card-text">${sol_keys[6].First_UTC}</p>
+                                <p class="card-text">${sol_keys[6].Last_UTC}</p>
+                                <p class="card-text">Month ordinal: ${sol_keys[6].Month_ordinal}</p>
+                                <p class="card-text">Southern season: ${sol_keys[6].Northern_season}</p>
+                                <p class="card-text">Average: ${sol_keys[6].PRE.av}</p>
+                                <p class="card-text">Min temperature: ${sol_keys[6].PRE.mn}</p>
+                                <p class="card-text">Min temperature: ${sol_keys[6].PRE.mx}</p>
                             </div>
                         </div>
                     </div>
@@ -275,6 +292,7 @@ const createWeather = (state) => {
         return content;
     }
 }
+
 
 const getImageOfTheDay = () => {
     fetch(`http://localhost:3000/apod`)
@@ -311,8 +329,7 @@ const getWeatherMars = () => {
     fetch(`http://localhost:3000/insight`)
         .then(res => res.json())
         .then(data => {
-            const sol_keys = data
-            console.log(sol_keys)
+            const sol_keys = Object.values(data)
             updateStore(store, {sol_keys: sol_keys})
         })
 }
